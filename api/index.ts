@@ -5,6 +5,10 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import 'dotenv/config';
 import { AppModule } from '../src/app.module';
 
+// Force Vercel tracing to include generated Prisma runtime files.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+require('../node_modules/.prisma/client/default');
+
 let server: ((req: VercelRequest, res: VercelResponse) => void) | null = null;
 
 async function bootstrap() {
