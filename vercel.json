@@ -5,11 +5,7 @@
   "functions": {
     "api/index.ts": {
       "runtime": "@vercel/node@5.7.15",
-      "includeFiles": [
-        "node_modules/.prisma/**",
-        "node_modules/@prisma/client/**",
-        "prisma/schema.prisma"
-      ]
+      "includeFiles": "{node_modules/.prisma/**,node_modules/@prisma/client/**,prisma/schema.prisma}"
     }
   },
   "routes": [
