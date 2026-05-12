@@ -3,8 +3,6 @@ import { AppModule } from './app.module';
 import 'dotenv/config';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import express from 'express';
-import { dirname } from 'node:path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,13 +23,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
-  const expressApp = app.getHttpAdapter().getInstance();
-  const swaggerUiRoot = dirname(
-    require.resolve('swagger-ui-dist/package.json'),
-  );
-  expressApp.use('/api', express.static(swaggerUiRoot, { index: false }));
-
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document, { ui: false, raw: ['json'] });
 
   // habilitar cors
   app.enableCors();

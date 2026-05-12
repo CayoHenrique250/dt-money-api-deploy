@@ -2,8 +2,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import express from 'express';
-import { dirname } from 'node:path';
 import 'dotenv/config';
 import { AppModule } from '../src/app.module';
 
@@ -32,19 +30,13 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
 
-  // Nest's useStaticAssets often misses swagger-ui-dist on Vercel's traced bundle.
-  // Serve assets explicitly from an absolute path so /api/swagger-ui*.js resolve.
-  const expressApp = app.getHttpAdapter().getInstance();
-  const swaggerUiRoot = dirname(
-    require.resolve('swagger-ui-dist/package.json'),
-  );
-  expressApp.use('/api', express.static(swaggerUiRoot, { index: false }));
-
-  SwaggerModule.setup('api', app, document);
+  // OpenAPI JSON only; HTML UI is served by AppController via CDN (Vercel has no local swagger-ui-dist).
+  SwaggerModule.setup('api', app, document, { ui: false, raw: ['json'] });
 
   app.enableCors();
   await app.init();
 
+  const expressApp = app.getHttpAdapter().getInstance();
   return expressApp as (req: VercelRequest, res: VercelResponse) => void;
 }
 
