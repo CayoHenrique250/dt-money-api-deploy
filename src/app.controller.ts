@@ -1,13 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Redirect } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Redirect('/api', 302)
+  root(): void {
+    // Swagger UI is served at /api (see api/index.ts / main.ts)
   }
-
 }
