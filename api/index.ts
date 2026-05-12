@@ -9,6 +9,10 @@ import { AppModule } from '../src/app.module';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require('../node_modules/.prisma/client/default');
 
+// Swagger UI static assets live in swagger-ui-dist; ensure they ship with the function.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+require.resolve('swagger-ui-dist/swagger-ui-bundle.js');
+
 let server: ((req: VercelRequest, res: VercelResponse) => void) | null = null;
 
 async function bootstrap() {
