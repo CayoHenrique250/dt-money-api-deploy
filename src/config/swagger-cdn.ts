@@ -5,9 +5,11 @@
 export const SWAGGER_UI_CDN_VERSION = '5.32.4';
 
 export function getSwaggerUiShellHtml(openApiJsonPath = '/api-json'): string {
-  const cdn = `https://unpkg.com/swagger-ui-dist@${SWAGGER_UI_CDN_VERSION}`;
+  // jsDelivr tends to be more reliable than unpkg from some networks / CDNs.
+  const cdn = `https://cdn.jsdelivr.net/npm/swagger-ui-dist@${SWAGGER_UI_CDN_VERSION}`;
   const specUrl = JSON.stringify(openApiJsonPath);
   return `<!DOCTYPE html>
+<!-- dt-money-api swagger shell: cdn-jsdelivr (no swagger-ui-init.js) -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
